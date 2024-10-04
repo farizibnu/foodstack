@@ -3,6 +3,7 @@ import 'package:foodstack/cart_screen.dart';
 import 'package:foodstack/menu_list.dart';
 import 'package:foodstack/menu_recommendation.dart';
 import 'package:foodstack/models/menu.dart';
+import 'package:foodstack/stream_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -44,24 +45,30 @@ class HomeScreen extends StatelessWidget {
                   Positioned(
                     top: 0,
                     right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 18,
-                        minHeight: 15,
-                      ),
-                      child: Text(
-                        carts.length.toString(), // Replace with the actual number of items
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                    child: StreamBuilder<int>(
+                      stream: cartStreamController.stream,
+                      initialData: carts.length,
+                      builder: (context, snapshot) {
+                        return Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 18,
+                            minHeight: 15,
+                          ),
+                          child: Text(
+                            snapshot.data.toString(), 
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ],

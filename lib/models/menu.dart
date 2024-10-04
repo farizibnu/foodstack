@@ -1,6 +1,7 @@
 
 List<Menu> favoriteMenus = [];
-List<Menu> carts = [];
+Map<Menu, int> carts = {};
+List<Menu> transactions = [];
 
 class Menu {
   int id;

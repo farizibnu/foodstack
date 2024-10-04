@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:foodstack/menu_detail.dart';
 import 'package:foodstack/models/menu.dart';
+import 'package:foodstack/stream_controller.dart';
 
 class MenuRecommendation extends StatelessWidget {
   MenuRecommendation({
@@ -12,7 +13,7 @@ class MenuRecommendation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Menu randomMenu = menuData[_random.nextInt(menuData.length)];
+    final Menu menu = menuData[_random.nextInt(menuData.length)];
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -28,15 +29,13 @@ class MenuRecommendation extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => MenuDetail(menu: randomMenu)),
+              MaterialPageRoute(builder: (context) => MenuDetail(menu: menu)),
             );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
-                // alignment: Alignment.topRight,
                 children: [
                   Container(
                     width: double.infinity,
@@ -47,13 +46,14 @@ class MenuRecommendation extends StatelessWidget {
                         topRight: Radius.circular(10),
                       ),
                       child: Image.asset(
-                        randomMenu.imageAsset,
+                        menu.imageAsset,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -76,7 +76,7 @@ class MenuRecommendation extends StatelessWidget {
                                 size: 14,
                               ),
                               Text(
-                                randomMenu.rating,
+                                menu.rating,
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
@@ -94,7 +94,7 @@ class MenuRecommendation extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      randomMenu.name,
+                      menu.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -110,7 +110,7 @@ class MenuRecommendation extends StatelessWidget {
                           width: 2,
                         ),
                         Text(
-                          randomMenu.time + ' | ' + randomMenu.calorie,
+                          menu.time + ' | ' + menu.calorie,
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -122,11 +122,25 @@ class MenuRecommendation extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            r"$" + randomMenu.price.toString(),
+                            r"$" + menu.price.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              addToCart(menu);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${menu.name} added to cart!'),
+                                  duration: const Duration(seconds: 2),
+                                  action: SnackBarAction(
+                                    label: 'Undo',
+                                    onPressed: () {
+                                      removeFromCart(menu);
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.all(10),
                               backgroundColor: Colors.black,

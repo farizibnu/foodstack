@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodstack/menu_detail.dart';
 import 'package:foodstack/models/menu.dart';
+import 'package:foodstack/stream_controller.dart';
 
 class MenuList extends StatefulWidget {
   const MenuList({super.key});
@@ -12,7 +13,7 @@ class MenuList extends StatefulWidget {
 class _MenuListState extends State<MenuList> {
   @override
   void dispose() {
-    super.dispose(); // Add this line
+    super.dispose();
   }
 
   @override
@@ -132,9 +133,25 @@ class _MenuListState extends State<MenuList> {
                                         !menuData[index].isFavorite;
                                     if (menuData[index].isFavorite) {
                                       favoriteMenus.add(menuData[index]);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              '${menu.name} added to favorite!'),
+                                          duration: const Duration(seconds: 2),
+                                        ),
+                                      );
                                     } else {
                                       favoriteMenus.removeWhere((menu) =>
                                           menu.id == menuData[index].id);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              '${menu.name} removed from favorite!'),
+                                          duration: const Duration(seconds: 2),
+                                        ),
+                                      );
                                     }
                                   });
                                 },
@@ -149,7 +166,20 @@ class _MenuListState extends State<MenuList> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  carts.add(menu);
+                                  addToCart(menu);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          Text('${menu.name} added to cart!'),
+                                      duration: const Duration(seconds: 2),
+                                      action: SnackBarAction(
+                                        label: 'Undo',
+                                        onPressed: () {
+                                          removeFromCart(menu);
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(10),

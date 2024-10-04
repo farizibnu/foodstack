@@ -232,7 +232,7 @@ class MenuDetail extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: menu.status == 'Available'
                         ? Colors.black
-                        : Colors.grey.shade300,
+                        : Colors.grey.shade400,
                   ),
                 ),
               )

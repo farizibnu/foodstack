@@ -22,9 +22,9 @@ class TransactionScreen extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
-                itemCount: menuData.length,
+                itemCount: transactions.length,
                 itemBuilder: (context, index) {
-                  final Menu menu = menuData[index];
+                  final Menu menu = transactions[index];
                   return Container(
                     padding: const EdgeInsets.only(right: 8),
                     margin: const EdgeInsets.symmetric(vertical: 4),

@@ -19,6 +19,11 @@ class _HomeRouteState extends State<HomeRoute> {
   ];
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
