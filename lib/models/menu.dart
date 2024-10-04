@@ -1,4 +1,9 @@
+
+List<Menu> favoriteMenus = [];
+List<Menu> carts = [];
+
 class Menu {
+  int id;
   String name;
   String description;
   String time;
@@ -7,8 +12,10 @@ class Menu {
   String status;
   String imageAsset;
   double price;
+  bool isFavorite;
 
   Menu({
+    required this.id,
     required this.name,
     required this.description,
     required this.time,
@@ -16,12 +23,14 @@ class Menu {
     required this.calorie,
     required this.status,
     required this.imageAsset,
-    required this.price
+    required this.price,
+    this.isFavorite = false,
   });
 }
 
 var menuData = [
   Menu(
+    id: 1,
     name: "Grilled Chicken Salad",
     description: "Fresh salad with grilled chicken, avocado, and vinaigrette dressing.",
     time: "15 min",
@@ -32,6 +41,7 @@ var menuData = [
     price: 12.99,
   ),
   Menu(
+    id: 2,
     name: "Spaghetti Carbonara",
     description: "Classic Italian pasta dish with creamy sauce and pancetta.",
     time: "20 min",
@@ -42,6 +52,7 @@ var menuData = [
     price: 14.99,
   ),
   Menu(
+    id: 3,
     name: "Vegetarian Pizza",
     description: "Thin crust pizza loaded with vegetables and mozzarella cheese.",
     time: "25 min",
@@ -52,6 +63,7 @@ var menuData = [
     price: 13.99,
   ),
   Menu(
+    id: 4,
     name: "Beef Burger",
     description: "Juicy beef patty with lettuce, tomato, and cheddar cheese in a sesame bun.",
     time: "10 min",
@@ -62,6 +74,7 @@ var menuData = [
     price: 10.99,
   ),
   Menu(
+    id: 5,
     name: "Chicken Caesar Wrap",
     description: "Tortilla wrap with grilled chicken, romaine lettuce, and Caesar dressing.",
     time: "10 min",
@@ -72,6 +85,7 @@ var menuData = [
     price: 9.99,
   ),
   Menu(
+    id: 6,
     name: "Vegan Buddha Bowl",
     description: "Nourishing bowl with quinoa, chickpeas, avocado, and tahini dressing.",
     time: "12 min",
@@ -82,6 +96,7 @@ var menuData = [
     price: 11.99,
   ),
   Menu(
+    id: 7,
     name: "Sushi Platter",
     description: "Assorted sushi rolls with fresh fish, avocado, and pickled ginger.",
     time: "30 min",
@@ -92,6 +107,7 @@ var menuData = [
     price: 19.99,
   ),
   Menu(
+    id: 8,
     name: "Pancakes with Maple Syrup",
     description: "Fluffy pancakes served with butter and maple syrup.",
     time: "15 min",
@@ -102,6 +118,7 @@ var menuData = [
     price: 8.99,
   ),
   Menu(
+    id: 9,
     name: "Tacos al Pastor",
     description: "Corn tortillas filled with marinated pork, pineapple, and cilantro.",
     time: "10 min",
@@ -112,6 +129,7 @@ var menuData = [
     price: 10.99,
   ),
   Menu(
+    id: 10,
     name: "Chocolate Lava Cake",
     description: "Rich chocolate cake with a molten center, served with vanilla ice cream.",
     time: "20 min",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodstack/cart_screen.dart';
 import 'package:foodstack/menu_list.dart';
 import 'package:foodstack/menu_recommendation.dart';
 import 'package:foodstack/models/menu.dart';
@@ -10,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.food_bank_rounded),
             SizedBox(
@@ -32,24 +33,29 @@ class HomeScreen extends StatelessWidget {
               Stack(
                 children: [
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_cart_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CartScreen()),
+                        );
+                    },
+                    icon: const Icon(Icons.shopping_cart_rounded),
                   ),
                   Positioned(
                     top: 0,
                     right: 0,
                     child: Container(
-                      padding: EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         minWidth: 18,
                         minHeight: 15,
                       ),
                       child: Text(
-                        '3', // Replace with the actual number of items
+                        carts.length.toString(), // Replace with the actual number of items
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -60,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 10,)
+              const SizedBox(width: 10,)
             ],
           )
         ],
@@ -70,27 +76,33 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF8F8F8),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(16),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.only(top: 8, bottom: 8),
-                child: Text(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: const Text(
                   'Recommendation',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              MenuRecommendation(),
-              SizedBox(height: 20),
+              Row(
+                children: [
+                  MenuRecommendation(),
+                  const SizedBox(width: 10),
+                  MenuRecommendation(),
+                ],
+              ),
+              const SizedBox(height: 20),
               Container(
-                padding: EdgeInsets.only(top: 8, bottom: 8),
-                child: Text(
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                child: const Text(
                   'All Menu',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              MenuList()
+              const MenuList()
             ],
           ),
         ),

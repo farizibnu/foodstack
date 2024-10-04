@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:foodstack/menu_detail.dart';
 import 'package:foodstack/models/menu.dart';
 
-class MenuList extends StatelessWidget {
+class MenuList extends StatefulWidget {
   const MenuList({super.key});
+
+  @override
+  State<MenuList> createState() => _MenuListState();
+}
+
+class _MenuListState extends State<MenuList> {
+  @override
+  void dispose() {
+    super.dispose(); // Add this line
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +23,31 @@ class MenuList extends StatelessWidget {
       itemCount: menuData.length,
       itemBuilder: (context, index) {
         final Menu menu = menuData[index];
-        return InkWell(
-          onTap: () {
-            // Navigate to the menu details page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MenuDetail(menu: menu,)),
-            );
-          },
-          child: Container(
-            padding: EdgeInsets.only(right: 8),
-            margin: EdgeInsets.symmetric(vertical: 4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.shade300, width: 2),
-              color: Colors.white,
-            ),
+        return Container(
+          padding: const EdgeInsets.only(right: 8),
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade300, width: 2),
+            color: Colors.white,
+          ),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MenuDetail(
+                    menu: menu,
+                  ),
+                ),
+              );
+            },
             child: Row(
               children: [
                 Expanded(
                   flex: 1,
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     height: 100,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -53,15 +66,17 @@ class MenuList extends StatelessWidget {
                           Expanded(
                             child: Text(
                               menu.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.orange[50],
                               borderRadius: BorderRadius.circular(20),
@@ -76,7 +91,7 @@ class MenuList extends StatelessWidget {
                                 ),
                                 Text(
                                   menu.rating,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
                                 ),
@@ -85,36 +100,76 @@ class MenuList extends StatelessWidget {
                           )
                         ],
                       ),
-                      Text(
-                        menu.time + ' | ' + menu.calorie,
-                        style: TextStyle(fontSize: 12),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.access_time_rounded,
+                            size: 14,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            '${menu.time} | ${menu.calorie}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             r"$" + menu.price.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(10),
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  size: 16,
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    menuData[index].isFavorite =
+                                        !menuData[index].isFavorite;
+                                    if (menuData[index].isFavorite) {
+                                      favoriteMenus.add(menuData[index]);
+                                    } else {
+                                      favoriteMenus.removeWhere((menu) =>
+                                          menu.id == menuData[index].id);
+                                    }
+                                  });
+                                },
+                                icon: menu.isFavorite
+                                    ? const Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                      )
+                                    : const Icon(
+                                        Icons.favorite_border,
+                                      ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  carts.add(menu);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(10),
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white,
                                 ),
-                                SizedBox(width: 4),
-                                Text('Add'),
-                              ],
-                            ),
+                                child: const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      size: 16,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text('Add'),
+                                  ],
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       )
