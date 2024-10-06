@@ -4,6 +4,7 @@ import 'package:foodstack/menu_list.dart';
 import 'package:foodstack/menu_recommendation.dart';
 import 'package:foodstack/models/menu.dart';
 import 'package:foodstack/stream_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,18 +13,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.food_bank_rounded),
-            SizedBox(
+            const Icon(Icons.food_bank_rounded),
+            const SizedBox(
               width: 5,
             ),
             Text(
               'FoodStack',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
+              style: GoogleFonts.baloo2(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.orange[500],
               ),
             ),
           ],
@@ -37,8 +38,9 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const CartScreen()),
-                        );
+                        MaterialPageRoute(
+                            builder: (context) => const CartScreen()),
+                      );
                     },
                     icon: const Icon(Icons.shopping_cart_rounded),
                   ),
@@ -46,34 +48,35 @@ class HomeScreen extends StatelessWidget {
                     top: 0,
                     right: 0,
                     child: StreamBuilder<int>(
-                      stream: cartStreamController.stream,
-                      initialData: carts.length,
-                      builder: (context, snapshot) {
-                        return Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 18,
-                            minHeight: 15,
-                          ),
-                          child: Text(
-                            snapshot.data.toString(), 
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
+                        stream: cartStreamController.stream,
+                        initialData: carts.length,
+                        builder: (context, snapshot) {
+                          return Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                    ),
+                            constraints: const BoxConstraints(
+                              minWidth: 18,
+                              minHeight: 15,
+                            ),
+                            child: Text(
+                              snapshot.data.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
-              const SizedBox(width: 10,)
+              const SizedBox(
+                width: 10,
+              )
             ],
           )
         ],
@@ -114,7 +117,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      // bottomNavigationBar: ,
     );
   }
 }

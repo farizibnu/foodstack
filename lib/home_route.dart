@@ -37,14 +37,15 @@ class _HomeRouteState extends State<HomeRoute> {
             });
           },
           backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          selectedItemColor: Colors.lime[400],
+          selectedItemColor: Colors.orange[400],
+          type: BottomNavigationBarType.fixed,
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
             color: Colors.black,
           ),
           unselectedItemColor: Colors.grey,
-          type: BottomNavigationBarType.fixed,
+          showUnselectedLabels: false,
           unselectedLabelStyle: const TextStyle(
             fontSize: 12,
             color: Colors.grey,

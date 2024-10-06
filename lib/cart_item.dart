@@ -80,7 +80,12 @@ class CartItem extends StatelessWidget {
                             children: [
                               Container(
                                 padding: const EdgeInsets.only(right: 24),
-                                child: Text(menu.name),
+                                child: Text(
+                                  menu.name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               Text(
                                 r"$" + menu.price.toString(),

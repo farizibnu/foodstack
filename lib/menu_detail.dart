@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:foodstack/cart_screen.dart';
 import 'package:foodstack/models/menu.dart';
+import 'package:foodstack/stream_controller.dart';
 
 class MenuDetail extends StatelessWidget {
   const MenuDetail({super.key, required this.menu});
@@ -28,9 +30,48 @@ class MenuDetail extends StatelessWidget {
                           },
                           icon: const Icon(Icons.arrow_back_rounded),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.shopping_cart_rounded),
+                        Stack(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CartScreen()),
+                                );
+                              },
+                              icon: const Icon(Icons.shopping_cart_rounded),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: StreamBuilder<int>(
+                                stream: cartStreamController.stream,
+                                initialData: carts.length,
+                                builder: (context, snapshot) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    constraints: const BoxConstraints(
+                                      minWidth: 18,
+                                      minHeight: 15,
+                                    ),
+                                    child: Text(
+                                      snapshot.data.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -51,7 +92,7 @@ class MenuDetail extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,45 +113,6 @@ class MenuDetail extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.remove,
-                          color: Colors.black,
-                          size: 15,
-                        ),
-                        constraints:
-                            const BoxConstraints.tightFor(width: 30, height: 30),
-                        style: const ButtonStyle(
-                          side: WidgetStatePropertyAll(
-                            BorderSide(color: Colors.black),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text(
-                        "2",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add, color: Colors.white, size: 15),
-                        constraints:
-                            const BoxConstraints.tightFor(width: 30, height: 30),
-                        style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(Colors.black),
-                        ),
-                      )
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -129,7 +131,7 @@ class MenuDetail extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.star_border_rounded,
-                              color: Colors.lime[300], size: 20),
+                              color: Colors.orange[300], size: 20),
                           const SizedBox(
                             width: 5,
                           ),
@@ -152,7 +154,7 @@ class MenuDetail extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.access_time_rounded,
-                              color: Colors.lime[300], size: 20),
+                              color: Colors.orange[300], size: 20),
                           const SizedBox(
                             width: 5,
                           ),
@@ -169,7 +171,7 @@ class MenuDetail extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.local_fire_department_outlined,
-                              color: Colors.lime[300], size: 20),
+                              color: Colors.orange[300], size: 20),
                           const SizedBox(
                             width: 5,
                           ),
@@ -212,19 +214,36 @@ class MenuDetail extends StatelessWidget {
                   const Text("Total Amount: "),
                   Text(
                     r"$" + menu.price.toString(),
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               ElevatedButton(
-                onPressed: menu.status == 'Available' ? () {} : null,
+                onPressed: () {
+                  addToCart(menu);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${menu.name} added to cart!'),
+                      duration: const Duration(seconds: 2),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {
+                          removeFromCart(menu);
+                        },
+                      ),
+                    ),
+                  );
+                },
                 style: ButtonStyle(
-                  padding: const WidgetStatePropertyAll(EdgeInsets.only(left: 50, right: 50)),
+                  padding: const WidgetStatePropertyAll(
+                      EdgeInsets.only(left: 50, right: 50)),
                   backgroundColor: menu.status == 'Available'
-                      ? WidgetStatePropertyAll(Colors.lime[300])
+                      ? WidgetStatePropertyAll(Colors.orange[300])
                       : const WidgetStatePropertyAll(Colors.grey),
                   elevation: WidgetStatePropertyAll(
-                      menu.status == 'Available' ? 0 : 4),
+                    menu.status == 'Available' ? 0 : 4,
+                  ),
                 ),
                 child: Text(
                   "Add to cart",

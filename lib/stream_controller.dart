@@ -1,29 +1,31 @@
 import 'dart:async';
 
 import 'package:foodstack/models/menu.dart';
+import 'package:foodstack/models/transaction.dart';
 
 final StreamController<int> cartStreamController =
     StreamController<int>.broadcast();
 
+List<Transaction> transactionHistory = [];
+
 void addToCart(Menu menu) {
   if (carts.containsKey(menu)) {
-    carts[menu] =
-        carts[menu]! + 1; 
+    carts[menu] = carts[menu]! + 1;
   } else {
-    carts[menu] = 1; 
+    carts[menu] = 1;
   }
-  cartStreamController.sink.add(carts.length); 
+  cartStreamController.sink.add(carts.length);
 }
 
 void removeFromCart(Menu menu) {
   if (carts.containsKey(menu)) {
     if (carts[menu]! > 1) {
-      carts[menu] = carts[menu]! - 1; 
+      carts[menu] = carts[menu]! - 1;
     } else {
-      carts.remove(menu); 
+      carts.remove(menu);
     }
   }
-  cartStreamController.sink.add(carts.length); 
+  cartStreamController.sink.add(carts.length);
 }
 
 void removeAllFromCart(Menu menu) {
