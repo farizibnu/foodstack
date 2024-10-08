@@ -27,7 +27,7 @@ class CartItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/images/empty_cart.png'),
-                Text(
+                const Text(
                   'Your Cart is Empty',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class CartItem extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 24),
                                 child: Text(
                                   menu.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -116,7 +116,7 @@ class CartItem extends StatelessWidget {
                                   ),
                                   Text(
                                     quatity.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
                                   ),

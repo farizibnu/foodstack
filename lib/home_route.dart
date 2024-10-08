@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodstack/favorite_screen.dart';
+import 'package:foodstack/favorite/favorite_screen.dart';
 import 'package:foodstack/home_screen.dart';
-import 'package:foodstack/transaction_screen.dart';
+import 'package:foodstack/transaction/transaction_screen.dart';
 
 class HomeRoute extends StatefulWidget {
   const HomeRoute({super.key});

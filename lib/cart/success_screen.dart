@@ -17,12 +17,12 @@ class SuccessScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.check_circle,
                   color: Colors.white,
                   size: 70,
                 ),
-                Text(
+                const Text(
                   'Success',
                   style: TextStyle(
                     fontSize: 30,
@@ -32,12 +32,12 @@ class SuccessScreen extends StatelessWidget {
                 ),
                 Text(
                   'Foodstack has received your \$${total.toStringAsFixed(2)} payment',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 ElevatedButton(
@@ -45,15 +45,15 @@ class SuccessScreen extends StatelessWidget {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
-                  style: ButtonStyle(
-                    padding: const WidgetStatePropertyAll(
+                  style: const ButtonStyle(
+                    padding: WidgetStatePropertyAll(
                         EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-                    elevation: const WidgetStatePropertyAll(0),
+                    elevation: WidgetStatePropertyAll(0),
                     backgroundColor: WidgetStatePropertyAll(
                       Colors.white,
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Go Back",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,

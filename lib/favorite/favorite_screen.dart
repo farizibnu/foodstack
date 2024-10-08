@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:foodstack/cart/cart_screen.dart';
-import 'package:foodstack/menu/menu_list.dart';
-import 'package:foodstack/menu/menu_recommendation.dart';
-import 'package:foodstack/menu/menu_list_grid.dart';
+import 'package:foodstack/favorite/favorite_list.dart';
+import 'package:foodstack/favorite/favorite_menu_grid.dart';
 import 'package:foodstack/models/menu.dart';
 import 'package:foodstack/stream_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({super.key});
+
+  @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            const Icon(Icons.food_bank_rounded),
-            const SizedBox(width: 5),
-            Text(
-              'FoodStack',
-              style: GoogleFonts.baloo2(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: Colors.orange[500],
-              ),
-            ),
-          ],
+        title: Text(
+          'Favorite',
+          style: GoogleFonts.baloo2(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.orange[500],
+          ),
         ),
+        centerTitle: true,
         actions: [
           Row(
             children: [
@@ -82,48 +86,38 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color(0xFFF8F8F8),
       ),
       backgroundColor: const Color(0xFFF8F8F8),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: const Text(
-                  'Recommendation',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: favoriteMenus.isEmpty
+            ? Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/empty_favorite.png'),
+                    const Text(
+                      'You Don\'t Have Any Favorite Menu',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Row(
-                children: [
-                  MenuRecommendation(),
-                  const SizedBox(width: 10),
-                  MenuRecommendation(),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                child: const Text(
-                  'All Menu',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              LayoutBuilder(
+              )
+            : LayoutBuilder(
                 builder: (context, constraints) {
                   if (constraints.maxWidth > 1200) {
-                    return const MenuListGrid(columns: 6);
+                    return FavoriteMenuGrid(
+                        columns: 6, favoriteMenus: favoriteMenus);
                   } else if (constraints.maxWidth > 600) {
-                    return const MenuListGrid(columns: 3);
+                    return FavoriteMenuGrid(
+                        columns: 3, favoriteMenus: favoriteMenus);
                   } else {
-                    return const MenuList();
+                    return FavoriteMenuList(favoriteMenus: favoriteMenus);
                   }
                 },
               ),
-            ],
-          ),
-        ),
       ),
     );
   }

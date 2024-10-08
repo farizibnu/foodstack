@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:foodstack/menu_detail.dart';
+import 'package:foodstack/detail/detail_screen.dart';
 import 'package:foodstack/models/menu.dart';
 import 'package:foodstack/stream_controller.dart';
 
@@ -29,7 +29,7 @@ class MenuRecommendation extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuDetail(menu: menu)),
+              MaterialPageRoute(builder: (context) => DetailScreen(menu: menu)),
             );
           },
           child: Column(
@@ -37,11 +37,11 @@ class MenuRecommendation extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 150,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
@@ -58,7 +58,7 @@ class MenuRecommendation extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 4,
                           ),
@@ -77,7 +77,7 @@ class MenuRecommendation extends StatelessWidget {
                               ),
                               Text(
                                 menu.rating,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -89,29 +89,29 @@ class MenuRecommendation extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       menu.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.access_time_rounded,
                           size: 14,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 2,
                         ),
                         Text(
-                          menu.time + ' | ' + menu.calorie,
-                          style: TextStyle(fontSize: 12),
+                          '${menu.time} | ${menu.calorie}',
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -123,7 +123,7 @@ class MenuRecommendation extends StatelessWidget {
                         children: [
                           Text(
                             r"$" + menu.price.toString(),
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -142,11 +142,11 @@ class MenuRecommendation extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               backgroundColor: Colors.black,
                               foregroundColor: Colors.white,
                             ),
-                            child: Icon(Icons.add),
+                            child: const Icon(Icons.add),
                           )
                         ],
                       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodstack/menu_detail.dart';
+import 'package:foodstack/detail/detail_screen.dart';
 import 'package:foodstack/models/menu.dart';
 import 'package:foodstack/stream_controller.dart';
 
@@ -37,7 +37,7 @@ class _MenuListState extends State<MenuList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MenuDetail(
+                  builder: (context) => DetailScreen(
                     menu: menu,
                   ),
                 ),

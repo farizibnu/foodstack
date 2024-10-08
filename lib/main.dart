@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: HomeRoute(),
+      home: const HomeRoute(),
     );
   }
 }
