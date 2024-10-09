@@ -12,69 +12,69 @@ class DetailWebPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_rounded),
-                  ),
-                  Stack(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CartScreen(),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.shopping_cart_rounded),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: StreamBuilder<int>(
-                          stream: cartStreamController.stream,
-                          initialData: carts.length,
-                          builder: (context, snapshot) {
-                            return Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 18,
-                                minHeight: 15,
-                              ),
-                              child: Text(
-                                snapshot.data.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
-                                textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_rounded),
+                    ),
+                    Stack(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartScreen(),
                               ),
                             );
                           },
+                          icon: const Icon(Icons.shopping_cart_rounded),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: Row(
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: StreamBuilder<int>(
+                            stream: cartStreamController.stream,
+                            initialData: carts.length,
+                            builder: (context, snapshot) {
+                              return Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 18,
+                                  minHeight: 15,
+                                ),
+                                child: Text(
+                                  snapshot.data.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
@@ -182,69 +182,68 @@ class DetailWebPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        height: 85,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Total Amount: "),
+                Text(
+                  r"$" + menu.price.toString(),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (menu.status == 'Available') {
+                  addToCart(menu);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${menu.name} added to cart!'),
+                      duration: const Duration(seconds: 2),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {
+                          removeFromCart(menu);
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
+              style: ButtonStyle(
+                padding: const WidgetStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                ),
+                backgroundColor: WidgetStatePropertyAll(
+                    menu.status == 'Available'
+                        ? Colors.orange[300]
+                        : Colors.grey),
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 85,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Total Amount: "),
-                        Text(
-                          r"$" + menu.price.toString(),
-                          style: const TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (menu.status == 'Available') {
-                          addToCart(menu);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${menu.name} added to cart!'),
-                              duration: const Duration(seconds: 2),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () {
-                                  removeFromCart(menu);
-                                },
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      style: ButtonStyle(
-                        padding: const WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 10),
-                        ),
-                        backgroundColor: WidgetStatePropertyAll(
-                            menu.status == 'Available'
-                                ? Colors.orange[300]
-                                : Colors.grey),
-                      ),
-                      child: Text(
-                        "Add to cart",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: menu.status == 'Available'
-                              ? Colors.black
-                              : Colors.grey.shade400,
-                        ),
-                      ),
-                    ),
-                  ],
+              child: Text(
+                "Add to cart",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: menu.status == 'Available'
+                      ? Colors.black
+                      : Colors.grey.shade400,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

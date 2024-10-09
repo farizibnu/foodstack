@@ -88,7 +88,6 @@ class CartScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            flex: 3,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (constraints.maxWidth > 1200) {
@@ -106,105 +105,105 @@ class CartScreen extends StatelessWidget {
             endIndent: 16,
             indent: 16,
           ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: StreamBuilder<Object>(
-                stream: cartStreamController.stream,
-                initialData: carts.length,
-                builder: (context, snapshot) {
-                  double subtotal = cartItem.getTotalPrice();
-                  double deliveryFee = carts.length * 0.25;
-                  double tax = subtotal * 0.12;
-                  double total = subtotal + deliveryFee + tax;
-
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Payment Detail',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: StreamBuilder<Object>(
+              stream: cartStreamController.stream,
+              initialData: carts.length,
+              builder: (context, snapshot) {
+                double subtotal = cartItem.getTotalPrice();
+                double deliveryFee = carts.length * 0.25;
+                double tax = subtotal * 0.12;
+                double total = subtotal + deliveryFee + tax;
+          
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Payment Detail',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Subtotal"),
+                            Text(
+                              r"$" + subtotal.toStringAsFixed(2),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Subtotal"),
-                              Text(
-                                r"$" + subtotal.toStringAsFixed(2),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Delivery fee"),
+                            Text(
+                              r"$" + deliveryFee.toStringAsFixed(2),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Tax"),
+                            Text(
+                              r"$" + tax.toStringAsFixed(2),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          thickness: 1,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Total",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Delivery fee"),
-                              Text(
-                                r"$" + deliveryFee.toStringAsFixed(2),
+                            ),
+                            Text(
+                              r"$" + total.toStringAsFixed(2),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Tax"),
-                              Text(
-                                r"$" + tax.toStringAsFixed(2),
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Total",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              Text(
-                                r"$" + total.toStringAsFixed(2),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ElevatedButton(
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 16),
+                          child: ElevatedButton(
                             onPressed: carts.isNotEmpty
                                 ? () {
                                     double totalPrice = 0.0;
                                     carts.forEach((menu, quantity) {
                                       totalPrice += menu.price * quantity;
                                     });
-
+                                    
                                     Transaction newTransaction = Transaction(
                                       date: DateTime.now(),
                                       items: Map.from(carts),
                                       totalPrice: totalPrice,
                                     );
                                     transactionHistory.add(newTransaction);
-
+                                    
                                     carts.clear();
                                     cartStreamController.add(carts.length);
                                     Navigator.push(
@@ -224,7 +223,7 @@ class CartScreen extends StatelessWidget {
                                             0.0,
                                           );
                                           const curve = Curves.easeInOut;
-
+                                    
                                           final tween =
                                               Tween(begin: begin, end: end);
                                           final curvedAnimation =
@@ -232,7 +231,7 @@ class CartScreen extends StatelessWidget {
                                             parent: animation,
                                             curve: curve,
                                           );
-
+                                    
                                           return SlideTransition(
                                             position:
                                                 tween.animate(curvedAnimation),
@@ -264,12 +263,12 @@ class CartScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ],
-                      )
-                    ],
-                  );
-                },
-              ),
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              },
             ),
           )
         ],
